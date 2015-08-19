@@ -1,0 +1,4 @@
+Django==1.8.4
+django-nose==1.4.1
+splinter==0.7.3
+ipython==4.0.0
