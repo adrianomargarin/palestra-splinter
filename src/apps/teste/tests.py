@@ -2,12 +2,19 @@
 
 from time import sleep
 
+from splinter import Browser
+
+from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-from splinter import Browser
 
-class TestSpliter(StaticLiveServerTestCase):
+from apps.teste.utils import soma
+
+User = get_user_model()
+
+
+class TestSpliter(TestCase, StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -25,10 +32,9 @@ class TestSpliter(StaticLiveServerTestCase):
         self.create_superuser()
 
     def create_superuser(self):
-        User = get_user_model()
-        User.objects.create_superuser(username="adrianomargarin",
-                                      email="teste@exemplo.com",
-                                      password="123456")
+        self.user = User.objects.create_superuser(username="adrianomargarin",
+                                                  email="teste@exemplo.com",
+                                                  password="123456")
 
     def login(self):
         self.browser.visit("%s%s" % (self.live_server_url, "/admin/login"))
@@ -58,3 +64,15 @@ class TestSpliter(StaticLiveServerTestCase):
         self.browser.find_by_name("_save").click()
 
         self.assertTrue(self.browser.find_link_by_href("/admin/auth/group/1/"))
+
+
+class TestSoma(TestCase):
+
+    def test_soma_dois_numeros_positivos(self):
+        self.assertEqual(4, soma(2, 2))
+
+    def test_soma_um_numero_positivo_com_um_negativo(self):
+        self.assertEqual(0, soma(2, -2))
+
+    def test_soma_dois_numeros_negativos(self):
+        self.assertEqual(-4, soma(-2, -2))
