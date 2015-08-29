@@ -19,8 +19,8 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super(TestSpliter, cls).setUpClass()
-        cls.browser = Browser("firefox")
-        # cls.browser = Browser("phantomjs")
+        # cls.browser = Browser("firefox")
+        cls.browser = Browser("phantomjs")
 
     @classmethod
     def tearDownClass(cls):
@@ -43,30 +43,32 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
         # sleep(5)
         button.click()
 
-    def test_search_google(self):
+    def test_pesquisa_google(self):
         self.browser.visit("http://google.com")
         self.browser.fill("q", "splinter - python acceptance testing for web applications")
         button = self.browser.find_by_name("btnG")
+        # sleep(5)
         button.click()
-
+        # sleep(5)
         self.assertTrue(self.browser.is_text_present("splinter.readthedocs.org"))
 
     def test_login_admin_django(self):
         self.login()
 
-        from IPython import embed; embed()
-
+        # sleep(5)
         self.assertTrue(self.browser.find_link_by_href("/admin/logout/"))
 
     def test_create_group(self):
         self.login()
         add = self.browser.find_link_by_href("/admin/auth/group/add/")
+        # sleep(5)
         add.click()
         name = "Grupo 1"
         self.browser.fill_form({"name": name})
         # sleep(5)
         self.browser.find_by_name("_save").click()
 
+        # sleep(5)
         self.assertEqual(Group.objects.first().name, name)
 
     def test_soma_focusout(self):
@@ -76,16 +78,17 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
         valor2 = self.browser.find_by_name("valor2").first
         resultado = self.browser.find_by_name("resultado").first
 
-        sleep(4)
+        # sleep(5)
         valor1.fill("2")
-        sleep(4)
+        # sleep(5)
         valor2.fill("2")
 
-        sleep(4)
+        # sleep(5)
         self.browser.evaluate_script("$('#id_valor2').focusout()")
-
-        sleep(8)
+        self.browser.screenshot()
+        # sleep(5)
         self.assertEqual(resultado.value, '4')
+
 
 class TestSoma(TestCase):
 
