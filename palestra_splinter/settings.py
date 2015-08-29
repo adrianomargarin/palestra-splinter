@@ -107,3 +107,11 @@ STATIC_ROOT = 'static'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, "static"),
 # )
+
+# Nose test suite
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = ['--verbosity=2', '--with-doctest',
+    '--cover-html', '--cover-html-dir=coverage/', '--cover-erase',
+    '--cover-package=app', '--testmatch=^test', '--nocapture',
+    '--nologcapture']

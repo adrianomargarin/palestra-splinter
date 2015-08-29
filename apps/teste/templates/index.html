@@ -1,0 +1,30 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>
+        Teste Frontend
+    </title>
+</head>
+<body>
+
+    <p>
+        <label>Valor 1</label>
+        <input name="valor1" id="id_valor1" type="text">
+    </p>
+    <p>
+        <label>Valor 2</label>
+        <input name="valor2" id="id_valor2" type="text">
+    </p>
+    <p>
+        <label>Resultado</label>
+        <input name="resultado" id="id_resultado" type="text">
+    </p>
+
+    <script type="text/javascript" src="{% static 'jquery-2.1.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'calculo.js' %}"></script>
+</body>
+</html>

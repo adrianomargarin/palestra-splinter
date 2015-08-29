@@ -6,8 +6,8 @@ from splinter import Browser
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
 
 from apps.teste.utils import soma
 
@@ -21,7 +21,6 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
         super(TestSpliter, cls).setUpClass()
         cls.browser = Browser("firefox")
         # cls.browser = Browser("phantomjs")
-        # cls.browser = Browser("chrome")
 
     @classmethod
     def tearDownClass(cls):
@@ -41,6 +40,7 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
         self.browser.fill_form({"username": "adrianomargarin",
                                 "password": "123456"})
         button = self.browser.find_by_value("Log in")
+        # sleep(5)
         button.click()
 
     def test_search_google(self):
@@ -54,17 +54,38 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
     def test_login_admin_django(self):
         self.login()
 
+        from IPython import embed; embed()
+
         self.assertTrue(self.browser.find_link_by_href("/admin/logout/"))
 
     def test_create_group(self):
         self.login()
         add = self.browser.find_link_by_href("/admin/auth/group/add/")
         add.click()
-        self.browser.fill_form({"name": "Grupo 1"})
+        name = "Grupo 1"
+        self.browser.fill_form({"name": name})
+        # sleep(5)
         self.browser.find_by_name("_save").click()
 
-        self.assertTrue(self.browser.find_link_by_href("/admin/auth/group/1/"))
+        self.assertEqual(Group.objects.first().name, name)
 
+    def test_soma_focusout(self):
+        self.browser.visit(self.live_server_url)
+
+        valor1 = self.browser.find_by_name("valor1").first
+        valor2 = self.browser.find_by_name("valor2").first
+        resultado = self.browser.find_by_name("resultado").first
+
+        sleep(4)
+        valor1.fill("2")
+        sleep(4)
+        valor2.fill("2")
+
+        sleep(4)
+        self.browser.evaluate_script("$('#id_valor2').focusout()")
+
+        sleep(8)
+        self.assertEqual(resultado.value, '4')
 
 class TestSoma(TestCase):
 
