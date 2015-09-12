@@ -20,7 +20,7 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
     def setUpClass(cls):
         super(TestSpliter, cls).setUpClass()
         # cls.browser = Browser("firefox")
-        cls.browser = Browser("phantomjs")
+        # cls.browser = Browser("phantomjs")
 
     @classmethod
     def tearDownClass(cls):
