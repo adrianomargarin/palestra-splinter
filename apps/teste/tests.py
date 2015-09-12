@@ -19,7 +19,7 @@ class TestSpliter(TestCase, StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super(TestSpliter, cls).setUpClass()
-        # cls.browser = Browser("firefox")
+        cls.browser = Browser("firefox")
         # cls.browser = Browser("phantomjs")
 
     @classmethod
